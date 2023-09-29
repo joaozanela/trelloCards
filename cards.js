@@ -37,7 +37,7 @@ try {
       format: "DD/MM/YYYY HH:mm:ss",
     });
 
-    console.log(card_name, card_id, list_id, period, cycle_time_secs);
+    // console.log(card_name, card_id, list_id, period, cycle_time_secs);
 
     const response2 = await trelloApi.get(`/cards/${card_id}/actions`);
     const actions = response2.data;

@@ -12,7 +12,7 @@ export function openDB() {
     card_name TEXT,
     period DATETIME,
     list_id TEXT,
-    cycle_time_secs INTEGER
+    cycle_time_secs INTEGER DEFAULT 0
   );`;
   db.exec(sql1);
 
@@ -21,7 +21,7 @@ export function openDB() {
     card_id STRING PRIMARY KEY,
     period DATETIME,
     list_id TEXT,
-    cycle_time_secs INTEGER
+    cycle_time_secs INTEGER DEFAULT 0
   );`;
   db.exec(sql2);
 
