@@ -8,9 +8,9 @@ export function openDB() {
 
   // Crie a tabela cards
   const sql1 = `CREATE TABLE IF NOT EXISTS cards (
-    period DATETIME,
-    card_id TEXT,
+    card_id STRING PRIMARY KEY,
     card_name TEXT,
+    period DATETIME,
     list_id TEXT,
     cycle_time_secs INTEGER
   );`;
@@ -18,8 +18,8 @@ export function openDB() {
 
   // Crie a tabela cards_avg
   const sql2 = `CREATE TABLE IF NOT EXISTS cards_avg (
+    card_id STRING PRIMARY KEY,
     period DATETIME,
-    card_id TEXT,
     list_id TEXT,
     cycle_time_secs INTEGER
   );`;

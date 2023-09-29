@@ -17,8 +17,15 @@ const trelloApi = axios.create({
   },
 });
 
+const cycle_time_secs = [];
+
 try {
-  const response1 = await trelloApi.get(`/boards/${idBoard}/cards`);
+  const response1 = await trelloApi.get(`/boards/${idBoard}/cards`, {
+    params: {
+      fields: "all",
+    },
+  });
+
   const cards = response1.data;
 
   for (const card of cards) {
@@ -29,6 +36,8 @@ try {
     const period = now.toLocaleString("pt-BR", {
       format: "DD/MM/YYYY HH:mm:ss",
     });
+
+    console.log(card_name, card_id, list_id, period, cycle_time_secs);
 
     const response2 = await trelloApi.get(`/cards/${card_id}/actions`);
     const actions = response2.data;
@@ -48,11 +57,11 @@ try {
       const cycleTime2 = cycleTime / 1000;
       const cycle_time_secs = cycleTime2.toFixed(2);
 
-      const sql1 = `INSERT INTO cards (period, card_id, card_name, list_id, cycle_time_secs) VALUES (?, ?, ?, ?, ?);`;
-      db.run(sql1, [period, card_id, card_name, list_id, cycle_time_secs]);
+      const sql1 = `INSERT INTO cards (card_id, card_name, period, list_id, cycle_time_secs) VALUES (?, ?, ?, ?, ?);`;
+      db.run(sql1, [card_id, card_name, period, list_id, cycle_time_secs]);
 
-      const sql2 = `INSERT INTO cards_avg (period, card_id, list_id, cycle_time_secs) VALUES (?, ?, ?, ?);`;
-      db.run(sql2, [period, card_id, list_id, cycle_time_secs]);
+      const sql2 = `INSERT INTO cards_avg (card_id, period, list_id, cycle_time_secs) VALUES (?, ?, ?, ?);`;
+      db.run(sql2, [card_id, period, list_id, cycle_time_secs]);
     }
   }
   db.close((err) => {
